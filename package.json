@@ -22,7 +22,7 @@
     "src/**"
   ],
   "scripts": {
-    "build": "tree-sitter generate --no-bindings",
+    "build": "tree-sitter generate",
     "build:local": "tree-sitter build -o parser/glimmer_javascript.so",
     "install": "node-gyp-build",
     "lint": "eslint common/define-grammar.js",
@@ -32,15 +32,15 @@
   },
   "dependencies": {
     "node-addon-api": "^8.2.1",
-    "node-gyp-build": "^4.8.2"
+    "node-gyp-build": "^4.8.2",
+    "tree-sitter-javascript": "^0.23.0"
   },
   "devDependencies": {
     "eslint": ">=8.57.0",
     "eslint-config-google": "^0.14.0",
     "prebuildify": "^6.0.1",
     "release-plan": "^0.9.2",
-    "tree-sitter-cli": "^0.24.3",
-    "tree-sitter-javascript": "^0.23.0"
+    "tree-sitter-cli": "^0.24.3"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.0"
