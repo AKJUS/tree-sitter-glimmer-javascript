@@ -22,7 +22,7 @@
     "src/**"
   ],
   "scripts": {
-    "build": "tree-sitter generate --no-bindings",
+    "build": "tree-sitter generate",
     "build:local": "tree-sitter build -o parser/glimmer_javascript.so",
     "install": "node-gyp-build",
     "lint": "eslint common/define-grammar.js",
