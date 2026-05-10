@@ -38,7 +38,7 @@ generation produces.
   runtime headers
 
 If you change `grammar.js` or bump the `tree-sitter` CLI, run
-`pnpm build` (or `tree-sitter generate --no-bindings`) and commit the
+`npm run build` (or `tree-sitter generate --no-bindings`) and commit the
 regenerated files alongside your source change.
 
 [ci]: https://github.com/ember-tooling/tree-sitter-glimmer-javascript/actions/workflows/ci.yml/badge.svg
