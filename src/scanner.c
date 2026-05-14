@@ -63,5 +63,33 @@ bool tree_sitter_glimmer_javascript_external_scanner_scan(void *payload, TSLexer
     if (valid_symbols[RAW_TEXT]) {
         return scan_raw_text(payload, lexer);
     }
+
+    // The upstream JS scanner refuses to insert an automatic semicolon before `<`
+    // because in standard JS it could be a less-than operator. In GJS/GTS, `<template>`
+    // is a valid class body member, so we handle the AUTOMATIC_SEMICOLON case ourselves:
+    // we call scan_automatic_semicolon directly (accessible from the included scanner.h),
+    // and when it refuses due to `<`, we check whether `<template>` follows and insert
+    // the semicolon if so.
+    if (valid_symbols[AUTOMATIC_SEMICOLON]) {
+        bool scanned_comment = false;
+        bool result = scan_automatic_semicolon(lexer, !valid_symbols[LOGICAL_OR], &scanned_comment);
+        if (!result && !scanned_comment) {
+            if (lexer->lookahead == '<') {
+                skip(lexer);
+                const char *tag = "template>";
+                for (unsigned i = 0; tag[i] != '\0'; i++) {
+                    if ((char)lexer->lookahead != tag[i]) return false;
+                    skip(lexer);
+                }
+                lexer->result_symbol = AUTOMATIC_SEMICOLON;
+                return true;
+            }
+            if (valid_symbols[TERNARY_QMARK] && lexer->lookahead == '?') {
+                return scan_ternary_qmark(lexer);
+            }
+        }
+        return result;
+    }
+
     return tree_sitter_javascript_external_scanner_scan(payload, lexer, valid_symbols);
 }

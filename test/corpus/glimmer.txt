@@ -156,6 +156,31 @@ class InClass {
           (glimmer_template_tag_name))))))
 
 ============================================
+Class Component with Field Without Semicolon
+============================================
+
+class Foo {
+  foo = bar
+  <template>{{this.foo}}</template>
+}
+
+----
+
+(program
+  (class_declaration
+    (identifier)
+    (class_body
+      (field_definition
+        (property_identifier)
+        (identifier))
+      (glimmer_template
+        (glimmer_opening_tag
+          (glimmer_template_tag_name))
+        (raw_text)
+        (glimmer_closing_tag
+          (glimmer_template_tag_name))))))
+
+============================================
 JS Regex Evasion
 ============================================
 
